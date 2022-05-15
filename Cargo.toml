@@ -15,8 +15,6 @@ keywords = ["binary", "encode", "decode", "serialize", "deserialize"]
 license = "MIT"
 description = "A binary serialization / deserialization strategy that uses Serde for transforming structs into bytes and vice versa!"
 
-[lib]
-crate-type = ["cdylib","lib"]
 
 [dependencies]
 
