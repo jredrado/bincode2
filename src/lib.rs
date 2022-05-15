@@ -1,5 +1,3 @@
-#![deny(missing_docs)]
-
 //! Bincode2 is a crate for encoding and decoding using a tiny binary
 //! serialization strategy.  Using it, you can easily go from having
 //! an object in memory, quickly serialize it to bytes, and then
@@ -18,14 +16,24 @@
 //! }
 //! ```
 
-#![doc(html_root_url = "https://docs.rs/bincode2/")]
-#![crate_name = "bincode2"]
-#![crate_type = "rlib"]
-#![crate_type = "dylib"]
+//#![doc(html_root_url = "https://docs.rs/bincode2/")]
+//#![crate_name = "bincode2"]
+//#![crate_type = "rlib"]
+//#![crate_type = "dylib"]
+#![feature(default_alloc_error_handler)]
+#![deny(missing_docs)]
+#![no_std]
+
+extern crate alloc;
 
 extern crate byteorder;
+
+extern crate core2;
+
 #[macro_use]
 extern crate serde;
+
+use alloc::vec::Vec;
 
 mod config;
 mod de;
@@ -83,7 +91,7 @@ pub fn config() -> Config {
 /// is returned and *no bytes* will be written into the `Writer`.
 pub fn serialize_into<W, T: ?Sized>(writer: W, value: &T) -> Result<()>
 where
-    W: std::io::Write,
+    W: core2::io::Write,
     T: serde::Serialize,
 {
     config().serialize_into(writer, value)
@@ -102,7 +110,7 @@ where
 /// If this returns an `Error`, `reader` may be in an invalid state.
 pub fn deserialize_from<R, T>(reader: R) -> Result<T>
 where
-    R: std::io::Read,
+    R: core2::io::Read,
     T: serde::de::DeserializeOwned,
 {
     config().deserialize_from(reader)
@@ -166,7 +174,7 @@ where
 pub fn with_serializer<A, W>(writer: W, acceptor: A) -> A::Output
 where
     A: SerializerAcceptor,
-    W: std::io::Write,
+    W: core2::io::Write,
 {
     config().with_serializer(writer, acceptor)
 }

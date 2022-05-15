@@ -3,9 +3,13 @@ use byteorder::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
 use de::read::BincodeRead;
 use error::Result;
 use serde;
-use std::io::{Read, Write};
-use std::marker::PhantomData;
+use core2::io::{Read, Write};
+use core::marker::PhantomData;
 use {DeserializerAcceptor, SerializerAcceptor};
+
+use alloc::boxed::Box;
+use alloc::string::String;
+use alloc::vec::Vec;
 
 struct DefaultOptions(Infinite);
 

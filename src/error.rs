@@ -1,12 +1,17 @@
-use std::error::Error as StdError;
-use std::io;
-use std::str::Utf8Error;
-use std::{error, fmt};
+use core2::error::Error as StdError;
+use core2::io;
+use core::str::Utf8Error;
+use core2::error;
+use core::fmt;
+
+use alloc::boxed::Box;
+use alloc::string::String;
+use alloc::string::ToString;
 
 use serde;
 
 /// The result of a serialization or deserialization operation.
-pub type Result<T> = ::std::result::Result<T, Error>;
+pub type Result<T> = ::core::result::Result<T, Error>;
 
 /// An error that can be produced during (de)serializing.
 pub type Error = Box<ErrorKind>;
@@ -42,6 +47,7 @@ pub enum ErrorKind {
 }
 
 impl StdError for ErrorKind {
+    /*
     fn description(&self) -> &str {
         match *self {
             ErrorKind::Io(ref err) => error::Error::description(err),
@@ -77,6 +83,7 @@ impl StdError for ErrorKind {
             ErrorKind::Custom(_) => None,
         }
     }
+    */
 }
 
 impl From<io::Error> for Error {
@@ -89,17 +96,17 @@ impl fmt::Display for ErrorKind {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             ErrorKind::Io(ref ioerr) => write!(fmt, "io error: {}", ioerr),
-            ErrorKind::InvalidUtf8Encoding(ref e) => write!(fmt, "{}: {}", self.description(), e),
+            ErrorKind::InvalidUtf8Encoding(ref e) => write!(fmt, "{}: {}", self, e),
             ErrorKind::InvalidBoolEncoding(b) => {
-                write!(fmt, "{}, expected 0 or 1, found {}", self.description(), b)
+                write!(fmt, "{}, expected 0 or 1, found {}", self, b)
             }
-            ErrorKind::InvalidCharEncoding => write!(fmt, "{}", self.description()),
+            ErrorKind::InvalidCharEncoding => write!(fmt, "{}", self),
             ErrorKind::InvalidTagEncoding(tag) => {
-                write!(fmt, "{}, found {}", self.description(), tag)
+                write!(fmt, "{}, found {}", self, tag)
             }
-            ErrorKind::SequenceMustHaveLength => write!(fmt, "{}", self.description()),
-            ErrorKind::SizeLimit => write!(fmt, "{}", self.description()),
-            ErrorKind::SizeTypeLimit => write!(fmt, "{}", self.description()),
+            ErrorKind::SequenceMustHaveLength => write!(fmt, "{}", self),
+            ErrorKind::SizeLimit => write!(fmt, "{}", self),
+            ErrorKind::SizeTypeLimit => write!(fmt, "{}", self),
             ErrorKind::DeserializeAnyNotSupported => write!(
                 fmt,
                 "Bincode does not support the serde::Deserializer::deserialize_any method"

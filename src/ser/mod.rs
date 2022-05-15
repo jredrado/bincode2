@@ -1,5 +1,5 @@
-use std::io::Write;
-use std::u32;
+use core2::io::Write;
+use core::u32;
 
 use serde;
 
@@ -230,7 +230,7 @@ impl<O: Options> SizeChecker<O> {
     }
 
     fn add_value<T>(&mut self, t: T) -> Result<()> {
-        use std::mem::size_of_val;
+        use core::mem::size_of_val;
         self.add_raw(size_of_val(&t) as u64)
     }
 }

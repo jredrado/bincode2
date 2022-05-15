@@ -1,12 +1,15 @@
 use serde;
-use std::io::{Read, Write};
-use std::marker::PhantomData;
+use core2::io::{Read, Write};
+use core::marker::PhantomData;
 
 use config::{Options, OptionsExt};
 use de::read::BincodeRead;
-use std::convert::TryFrom;
-use std::convert::TryInto;
+use core::convert::TryFrom;
+use core::convert::TryInto;
 use {ErrorKind, Result};
+
+use alloc::boxed::Box;
+use alloc::vec::Vec;
 
 #[derive(Clone)]
 struct CountSize<L: SizeLimit> {
