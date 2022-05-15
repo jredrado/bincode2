@@ -30,6 +30,8 @@ extern crate byteorder;
 
 extern crate core2;
 
+extern crate thiserror_core2;
+
 #[macro_use]
 extern crate serde;
 

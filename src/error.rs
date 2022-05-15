@@ -10,6 +10,7 @@ use alloc::string::ToString;
 
 use serde;
 
+
 /// The result of a serialization or deserialization operation.
 pub type Result<T> = ::core::result::Result<T, Error>;
 
@@ -17,7 +18,7 @@ pub type Result<T> = ::core::result::Result<T, Error>;
 pub type Error = Box<ErrorKind>;
 
 /// The kind of error that can be produced during a serialization or deserialization.
-#[derive(Debug)]
+#[derive(thiserror_core2::Error,Debug)]
 pub enum ErrorKind {
     /// If the error stems from the reader/writer that is being used
     /// during (de)serialization, that error will be stored and returned here.
@@ -46,8 +47,9 @@ pub enum ErrorKind {
     Custom(String),
 }
 
+/*
 impl StdError for ErrorKind {
-    /*
+    
     fn description(&self) -> &str {
         match *self {
             ErrorKind::Io(ref err) => error::Error::description(err),
@@ -83,8 +85,9 @@ impl StdError for ErrorKind {
             ErrorKind::Custom(_) => None,
         }
     }
-    */
+    
 }
+*/
 
 impl From<io::Error> for Error {
     fn from(err: io::Error) -> Error {
