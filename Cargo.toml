@@ -18,7 +18,9 @@ description = "A binary serialization / deserialization strategy that uses Serde
 
 [dependencies]
 
-thiserror_core2 = {version = "2.0.0", default-features = false}
+#thiserror_core2 = {version = "2.0.0", default-features = false}
+thiserror_core2 = {version = "2.0.0", git="https://github.com/jredrado/thiserror-core2.git", default-features = false}
+
 byteorder = {git = "https://github.com/jredrado/byteorder.git", default-features=false, branch="update-to-core2", package="byteorder_bare-io"}
 core2 = { git = "https://github.com/bbqsrc/core2", branch = "main", default-features=false, features=["alloc"]}
 

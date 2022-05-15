@@ -1,7 +1,7 @@
-use core2::error::Error as StdError;
+
 use core2::io;
 use core::str::Utf8Error;
-use core2::error;
+
 use core::fmt;
 
 use alloc::boxed::Box;
@@ -10,6 +10,7 @@ use alloc::string::ToString;
 
 use serde;
 
+use thiserror_core2::Error;
 
 /// The result of a serialization or deserialization operation.
 pub type Result<T> = ::core::result::Result<T, Error>;
@@ -18,7 +19,7 @@ pub type Result<T> = ::core::result::Result<T, Error>;
 pub type Error = Box<ErrorKind>;
 
 /// The kind of error that can be produced during a serialization or deserialization.
-#[derive(thiserror_core2::Error,Debug)]
+#[derive(Error,Debug)]
 pub enum ErrorKind {
     /// If the error stems from the reader/writer that is being used
     /// during (de)serialization, that error will be stored and returned here.
@@ -46,6 +47,7 @@ pub enum ErrorKind {
     /// A custom error message from Serde.
     Custom(String),
 }
+
 
 /*
 impl StdError for ErrorKind {
